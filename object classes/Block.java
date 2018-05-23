@@ -5,16 +5,17 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Block
-{
-    private int x, y;
 
+import javax.swing.ImageIcon;
+import java.awt.Image;
+
+public class Block extends Sprite
+{
     /**
      * Constructor for objects of class Block
      */
-    public Block(int x, int y)
+    public Block(int x, int y, ImageIcon i)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y, i.getImage());
     }
 }
