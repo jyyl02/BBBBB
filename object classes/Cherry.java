@@ -5,17 +5,22 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Cherry
+
+import javax.swing.ImageIcon;
+import java.awt.Image;
+
+public class Cherry extends Sprite
 {
-    //instacne variables
-    int x, y;
-    
     /**
      * Constructor for objects of class Cherry
      */
-    public Cherry(int x, int y)
+    public Cherry(int x, int y, ImageIcon i)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y, i.getImage());
+    }
+    
+    public void disappear()
+    {
+        //????
     }
 }
