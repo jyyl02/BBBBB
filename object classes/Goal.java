@@ -1,18 +1,20 @@
 
-/**
+**
  * Write a description of class Goal here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Goal
-{
-    // instance variables - replace the example below with your own
-    private int x, y;
 
-    public Goal(int x, int y)
+import javax.swing.ImageIcon;
+import java.awt.Image;
+
+public class Goal extends Sprite
+{
+    // instance variables
+
+    public Goal(int x, int y, ImageIcon i)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y, i.getImage());
     }
 }
