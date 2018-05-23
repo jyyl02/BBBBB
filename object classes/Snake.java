@@ -1,23 +1,32 @@
 
-/**
+**
  * Write a description of class Snakes here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Snake
+
+import javax.swing.ImageIcon;
+import java.awt.Image;
+
+public class Snake extends Sprite
 {
-    // instance variables - replace the example below with your own
-    private int x, y; // starting point
-    private 
+    // instance variables
+    private int dx;
     
     /**
      * Constructor for objects of class Snakes
      */
-    public Snake(int x, int y)
+    public Snake(int x, int y, ImageIcon i)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y, i.getImage());
+        dx = 1; //adjust value
+    }
+    
+    //moves
+    public void move()
+    {
+        setX(getX() + dx);
     }
     
     //change direction
@@ -25,7 +34,8 @@ public class Snake
     {
         
     }
-    //attack sequence
+    
+    //alert + attack sequence
     public void attack()
     {
         
