@@ -1,20 +1,25 @@
-
 /**
  * Write a description of class BigBoy here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class BigBoy
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+
+public class BigBoy extends Sprite
 {
     //instance variables
-    private int lives, cherries;
-
+    private int lives, cherries; //unique variables
+    private int dx, dy;
+    
     /**
      * Constructor for objects of class BigBoy
      */
-    public BigBoy()
+    public BigBoy(int x, int y, ImageIcon i)
     {
+        super(x, y, i.getImage());
         lives = 3;
         cherries = 0;
     }
@@ -52,6 +57,46 @@ public class BigBoy
     //changes position based on left and right arrow keys
     public void run()
     {
+        setX(getX() + dx);
+    }
+    
+    public void keyPressed(KeyEvent e)
+    {
+        int key = e.getKeyCode();
         
+        if(key == KeyEvent.VK_LEFT)
+        {
+            dx = -2; //adjust values
+        }
+        
+        if(key == KeyEvent.VK_RIGHT)
+        {
+            dx = 2; //adjust values
+        }
+        
+        if(key == KeyEvent.VK_UP)
+        {
+            dy = 2; //>???? adjust values
+        }
+    }
+    
+    public void keyReleasesd (KeyEvent e)
+    {
+        int key = e.getKeyCode();
+        
+        if(key == KeyEvent.VK_LEFT)
+        {
+            dx = 0; 
+        }
+        
+        if(key == KeyEvent.VK_RIGHT)
+        {
+            dx = 0; 
+        }
+        
+        if(key == KeyEvent.VK_UP)
+        {
+            dy = 0; //idk
+        }
     }
 }
