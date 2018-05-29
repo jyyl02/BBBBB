@@ -51,7 +51,14 @@ public class BigBoy extends Sprite
     //changes position based on up, right/left arrow keys
     public void jump()
     {
-        
+        //if able to move down
+            //upward motion of jump
+            //if left/right keys pressed, jump left/right
+                //change cooridinates
+            
+            //downward motion of jump
+            //if BigBoy was jumping left/right up, go down left/right
+                //change coor
     }
     
     //changes position based on left and right arrow keys
