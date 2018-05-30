@@ -8,22 +8,62 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
-public class BigBoy extends Sprite
+public class BigBoy
 {
     //instance variables
     private int lives, cherries; //unique variables
-    private int dx, dy;
+    private int dx;
+    private int bx1, bx2; //background image one + two *****
+    private int x, y; //x and y location
+    Image bB;
+    //image files needed
+        //ImageIcon facingLeft = new ImageIcon("");
+        //ImageIcon facingRight = new ImageIcon("");
     
     /**
      * Constructor for objects of class BigBoy
      */
-    public BigBoy(int x, int y, ImageIcon i)
+    public BigBoy(int x, int y)
     {
-        super(x, y, i.getImage());
-        lives = 3;
-        cherries = 0;
+        this.x = x;
+        this.y = y;
+        
+        
+        //bB = facingRight.getImage();
     }
-
+    
+    //changes position left/right
+    public void run(boolean right)
+    {
+        if(true) //if x value is within bounds
+        {
+            if(right)
+            {
+                //bB = facingRight.getImage();
+                x += dx;
+            }
+            else
+            {
+                //bB = facingLeft.getImage();
+                x -= dx;
+            }
+        }
+    }
+    
+    //changes position based on up, right/left arrow keys
+    public  void jump()
+    {
+        if(true) //if x/y value is on a block
+        {
+            y += 2; //adjust value
+        }
+        
+        while(true) //while x/y value is in the air
+        {
+            y -= 2; //adjust value
+        }
+    }
+    
     //collects cherry
     public void collectCherry()
     {
@@ -36,7 +76,7 @@ public class BigBoy extends Sprite
         lives--;
     }
     
-    //jumps back when hit a snake
+    //jumps in the same direction as the snake attack
     public void jumpBack()
     {
         
@@ -48,25 +88,31 @@ public class BigBoy extends Sprite
         lives = 3;
     }
     
-    //changes position based on up, right/left arrow keys
-    public void jump()
+    
+    public int getX()
     {
-        //if able to move down
-            //upward motion of jump
-            //if left/right keys pressed, jump left/right
-                //change cooridinates
-            
-            //downward motion of jump
-            //if BigBoy was jumping left/right up, go down left/right
-                //change coor
+        return x;
     }
     
-    //changes position based on left and right arrow keys
-    public void run()
+    public int getY()
     {
-        setX(getX() + dx);
+        return y;
+    }  
+    
+    public int getLives()
+    {
+        return lives;
     }
     
+    public Image getImage()
+    {
+        return bB;
+    }
+
+    
+    
+    
+    /*
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
@@ -87,6 +133,8 @@ public class BigBoy extends Sprite
         }
     }
     
+   
+   
     public void keyReleasesd (KeyEvent e)
     {
         int key = e.getKeyCode();
@@ -101,9 +149,13 @@ public class BigBoy extends Sprite
             dx = 0; 
         }
         
+        /*
         if(key == KeyEvent.VK_UP)
         {
             dy = 0; //idk
         }
+        
     }
+    
+    */
 }
