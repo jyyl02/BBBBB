@@ -1,25 +1,46 @@
+
 /**
- * Write a description of class Level1 here.
+ * Write a description of class Frame here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import javax.swing.JFrame;
 
-public class Level
+public class Frame
 {
     // instance variables
     private int width, height;
-
-    /**
-     * Constructor for objects of class Level1
-     */
-    public Level(int width, int height)
+    private int boardPos; //position of frame on board??
+    
+    public static void main(String[] args)
     {
-        this.width = width;
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        JFrame jFrame = new JFrame();
+        
+        
+    }
+    
+    /**
+     * Constructor for objects of class Frame
+     */
+    public Frame()
+    {
+        
+    }
+    
+    public void scroll()
+    {
+        //boardPos moves??????
     }
 }
