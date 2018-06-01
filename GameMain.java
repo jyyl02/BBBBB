@@ -1,7 +1,7 @@
 /**
  * Write a description of class BasicAnimation here.
  * 
- * @author (your name) 
+ * Joy Liu P5, Isabella Wu P6
  * @version (a version number or a date)
  */
 
@@ -25,13 +25,28 @@ public class GameMain extends Application
     private int screenWidth, screenHeight;
     private Menu menu;
     private Frame frame;
-    private Level level;
+    private Level level; //not needed????**
     private BigBoy bigBoy;
+    
+    private int gameState, level;
+    private int MENU, LOADLEVEL, PLAYING, DEAD, PASSED, WON;
     
     public GameMain()
     {
         screenWidth = 750;
         screenHeight = 500;
+        
+        bigBoy = new BigBoy(0, 0); //adjust values;
+        menu = new Menu();
+        
+        MENU = 0;
+        LOADLEVEL = 1;
+        PLAYING = 2;
+        DEAD = 3;
+        PASSED = 4;
+        WON = 5;
+        gameState = MENU;
+        level = 0; //tutorial
     }
     
     @Override 
@@ -88,7 +103,6 @@ public class GameMain extends Application
         gc.fillRect(0, 0, 500, 750);
 
         // objects on screen
-        gc.
 
     }
 
