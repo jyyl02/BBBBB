@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=Goal
+comment1.params=x\ y\ i
+comment1.target=Goal(int,\ int,\ javax.swing.ImageIcon)
+numComments=2
