@@ -5,6 +5,13 @@
  * @version (a version number or a date)
  */
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -21,14 +28,14 @@ import javafx.animation.Animation;
 
 public class GameMain extends Application
 {
-     // private instance variables
+    // private instance variables
     private int screenWidth, screenHeight;
     private Menu menu;
     private Frame frame;
     private Level level; //not needed????**
     private BigBoy bigBoy;
     
-    private int gameState;
+    private int gameState, levelNum;
     private int MENU, PLAYING, PAUSED, WON;
     
     public GameMain()
@@ -36,11 +43,12 @@ public class GameMain extends Application
         screenWidth = 750;
         screenHeight = 500;
         
+        //** still need to figure out images
         //ImageIcon i = newImageIcon("file");
         //menuBg = i.getImage();
         //i = new ImageIcon("file");
         //gameBg = i.getImage();
-        bigBoy = new BigBoy(0, 0); //adjust values;
+        bigBoy = new BigBoy();
         menu = new Menu();
         
         MENU = 0;
@@ -48,7 +56,7 @@ public class GameMain extends Application
         PAUSED = 2;
         WON = 3;
         gameState = MENU;
-        //level = 0; //tutorial
+        levelNum = 0; 
     }
     
     @Override 
@@ -59,7 +67,7 @@ public class GameMain extends Application
         Timeline tl = new Timeline(new KeyFrame(Duration.millis(10), e -> run(gc)));
         tl.setCycleCount(Timeline.INDEFINITE);
         canvas.setFocusTraversable(true);
-
+        
         
         //handle mouse and key events
         canvas.setOnKeyPressed( e ->
@@ -92,12 +100,16 @@ public class GameMain extends Application
             int mouseY = (int) e.getY();
             if(gameState == MENU)
             {
-                /* if mouse is clicked within the "START" button
-                if(mouseX >= xx && mouseX <= xx && mouseY >= yy && mouseY <= yy)
+                //if mouse is clicked within the "START" button
+                if(mouseX >= 450 && mouseX <= 300 
+                && mouseY >= 300 && mouseY <= 225)
                 {
                     gameState = PLAYING;
+                    tl.play();
+                    //test
+                    System.out.print("ooo");
                 }
-                */
+                                    
             }
             
             if(gameState == PAUSED)
@@ -112,7 +124,7 @@ public class GameMain extends Application
             }
         });
         
-        stage.setTitle("Game");
+        stage.setTitle("BBBBB");
         stage.setScene(new Scene(new StackPane(canvas)));
         stage.show();
         tl.play(); 
@@ -122,12 +134,20 @@ public class GameMain extends Application
     {
         // color for background
         gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, 500, 750);
-
+        gc.fillRect(0, 0, 750, 500);
+        
+        //test- not working
+        //***** figures out images!
+        //---File file = new File("file:src/bigboy-right.png");
+        //Image image = new Image("/bigboy-right.png");
+        //gc.drawImage(image, 100, 100);
+        
         // objects on screen
+        
          if(gameState == MENU)
         {
             //gc.drawImage(menuBg, 0, 0);
+            menu.run(gc);
         }
         else if(gameState != WON)
         {
@@ -135,14 +155,22 @@ public class GameMain extends Application
             //gc.drawImage(gameBg, -750, 0); ??????
             gc.setFill(Color.WHITE);
             //score
-            gc.fillText("" + bigBoy.getCherries() * 5, screenWidth - 50, screenHeight / 8); //adjust values
+            gc.fillText("" + bigBoy.getCherries() * 5, 200, 25);
             //cherry count (collected/total)
-            gc.fillText(bigBoy.getCherries() + "/" + level.getCherries(), screenWidth / 2,
-            screenHeight / 8);
+            gc.fillText(bigBoy.getCherries() + "/" + level.getCherries(), 125,
+            25);
             //lives
-            gc.fillText("" + bigBoy.getLives(), screenWidth / 5, screenHeight / 8);
+            gc.fillText("" + bigBoy.getLives(), 25, 25);
         }
         
+       
+        /*test
+        gc.setFill(Color.WHITE);
+        gc.fillText("Score: 15", 200, 25); //score
+        gc.fillText("0 / 3", 125, //cherry count
+            25);
+        gc.fillText("3 / 3 lives", 25, 25); //lives
+        */
     }
     
 
