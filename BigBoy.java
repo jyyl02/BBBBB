@@ -12,21 +12,25 @@ public class BigBoy
 {
     //instance variables
     private int lives, cherries; //unique variables
-    private int dx;
+    private int dx; // x displacement
     private int bx1, bx2; //background image one + two *****
     private int x, y; //x and y location
     Image bB;
     //image files needed
         //ImageIcon facingLeft = new ImageIcon("");
         //ImageIcon facingRight = new ImageIcon("");
+        //ImageIcon jumping = new ImageIcon("");
     
     /**
      * Constructor for objects of class BigBoy
      */
-    public BigBoy(int x, int y)
+    public BigBoy()
     {
-        this.x = x;
-        this.y = y;
+        //adjust values
+        x = 75;
+        y = 200; 
+        bx1 = 0;
+        bx2 = -750;
         
         
         //bB = facingRight.getImage();
@@ -35,7 +39,7 @@ public class BigBoy
     //changes position left/right
     public void run(boolean right)
     {
-        if(true) //if x value is within bounds
+        if(x > 0 && x < 750)
         {
             if(right)
             {
@@ -48,20 +52,46 @@ public class BigBoy
                 x -= dx;
             }
         }
+        
+        if(x <= 0)
+        {
+            x = 1;
+            bx1 += dx / 2; //slows down bg speed
+            bx2 += dx / 2;
+        }
+        
+        if(x >= 750)
+        {
+            x = 749;
+            bx1 += dx / 2; //slows down bg speed
+            bx2 += dx / 2;
+        }
     }
     
     //changes position based on up, right/left arrow keys
     public  void jump()
     {
-        if(true) //if x/y value is on a block
+        if(checkCollisions() == 1) //if x/y value is on a block
         {
-            y += 2; //adjust value
+            
         }
         
-        while(true) //while x/y value is in the air
+        while(checkCollisions() != 1) //while x/y value is in the air
         {
             y -= 2; //adjust value
         }
+    }
+    
+    public int checkCollisions()
+    {
+        //if bigboy x position is hitting a block
+        //return 0
+        // if y pos hitting block 
+        //return 1
+        //if cherry hit
+        //return 2
+        
+        return -1;
     }
     
     //collects cherry
@@ -88,6 +118,10 @@ public class BigBoy
         lives = 3;
     }
     
+    public void setDx(int x)
+    {
+        dx = x;
+    }
     
     public int getX()
     {
@@ -97,7 +131,12 @@ public class BigBoy
     public int getY()
     {
         return y;
-    }  
+    } 
+    
+        public int getCherries()
+    {
+        return cherries;
+    }
     
     public int getLives()
     {
