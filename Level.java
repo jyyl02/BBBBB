@@ -13,6 +13,7 @@ public class Level
 {
     // instance variables
     private int width, height;
+    private int cherryNum;
 
     /**
      * Constructor for objects of class Level1
@@ -37,5 +38,10 @@ public class Level
     public void placeGoal(Goal goal)
     {
         
+    }
+    
+    public int getCherries()
+    {
+        return cherryNum;
     }
 }
