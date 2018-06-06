@@ -15,22 +15,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Menu
-{
-    // instance variables
-    private int height, width;
-    /**
-     * Constructor for objects of class Menu
-     */
-    public Menu()
+{    
+    public void run(GraphicsContext gc)
     {
-
-    }
-    
-    public void start(Stage stage)
-    {
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        
-        stage.setTitle("Start");
+        // color for background
+        gc.setFill(Color.RED);
+        gc.fillRect(0, 0, 750, 500);
+        //START button
+        gc.setFill(Color.BLACK);
+        gc.fillRect(300, 225, 150, 75);
+        gc.setFill(Color.WHITE);
+        gc.fillText("START GAME", 335, 265); //adjust values
+        //credits
+        gc.fillText("Joy L\tIsabella W", 310, 400); //adjust values
     }
 }
