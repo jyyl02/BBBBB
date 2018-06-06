@@ -21,32 +21,34 @@ import javafx.animation.Animation;
 
 public class GameMain extends Application
 {
-    // private instance variables
+     // private instance variables
     private int screenWidth, screenHeight;
     private Menu menu;
     private Frame frame;
     private Level level; //not needed????**
     private BigBoy bigBoy;
     
-    private int gameState, level;
-    private int MENU, LOADLEVEL, PLAYING, DEAD, PASSED, WON;
+    private int gameState;
+    private int MENU, PLAYING, PAUSED, WON;
     
     public GameMain()
     {
         screenWidth = 750;
         screenHeight = 500;
         
+        //ImageIcon i = newImageIcon("file");
+        //menuBg = i.getImage();
+        //i = new ImageIcon("file");
+        //gameBg = i.getImage();
         bigBoy = new BigBoy(0, 0); //adjust values;
         menu = new Menu();
         
         MENU = 0;
-        LOADLEVEL = 1;
-        PLAYING = 2;
-        DEAD = 3;
-        PASSED = 4;
-        WON = 5;
+        PLAYING = 1;
+        PAUSED = 2;
+        WON = 3;
         gameState = MENU;
-        level = 0; //tutorial
+        //level = 0; //tutorial
     }
     
     @Override 
@@ -64,29 +66,49 @@ public class GameMain extends Application
         {
             if(e.getCode() == KeyCode.LEFT)
             {
-                BigBoy.run(false);
+                bigBoy.run(false);
             }
             
             if(e.getCode() == KeyCode.RIGHT)
             {
-                BigBoy.run(true);
+                bigBoy.run(true);
             }
             
             if(e.getCode() == KeyCode.UP)
             {
-                BigBoy.jump();
+                bigBoy.jump();
             }
+        });
+        
+        canvas.setOnKeyReleased( e ->
+        {
+            if(e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT)        
+                bigBoy.setDx(0);
         });
         
         canvas.setOnMouseClicked(e ->
         {
-            if(tl.getStatus() == Animation.Status.PAUSED)
+            int mouseX = (int) e.getX();
+            int mouseY = (int) e.getY();
+            if(gameState == MENU)
+            {
+                /* if mouse is clicked within the "START" button
+                if(mouseX >= xx && mouseX <= xx && mouseY >= yy && mouseY <= yy)
+                {
+                    gameState = PLAYING;
+                }
+                */
+            }
+            
+            if(gameState == PAUSED)
             {
                 tl.play();
+                gameState = PLAYING;
             }
-            else
+            else if(gameState == PLAYING)
             {
                 tl.pause();
+                gameState = PAUSED;
             }
         });
         
@@ -103,8 +125,26 @@ public class GameMain extends Application
         gc.fillRect(0, 0, 500, 750);
 
         // objects on screen
-
+         if(gameState == MENU)
+        {
+            //gc.drawImage(menuBg, 0, 0);
+        }
+        else if(gameState != WON)
+        {
+            //gc.drawImage(gameBg, 0, 0);
+            //gc.drawImage(gameBg, -750, 0); ??????
+            gc.setFill(Color.WHITE);
+            //score
+            gc.fillText("" + bigBoy.getCherries() * 5, screenWidth - 50, screenHeight / 8); //adjust values
+            //cherry count (collected/total)
+            gc.fillText(bigBoy.getCherries() + "/" + level.getCherries(), screenWidth / 2,
+            screenHeight / 8);
+            //lives
+            gc.fillText("" + bigBoy.getLives(), screenWidth / 5, screenHeight / 8);
+        }
+        
     }
+    
 
     // run program
     public static void main(String[] args)
