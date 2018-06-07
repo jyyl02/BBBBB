@@ -20,7 +20,7 @@ public class Menu
     public void run(GraphicsContext gc)
     {
         //background
-        Image background = new Image("menuBg.png");
+        Image background = new Image("file:menuBg.png");
         gc.drawImage(background, 0, 0);
         //START button
         gc.setFill(Color.BLACK);
@@ -29,5 +29,9 @@ public class Menu
         gc.fillText("START GAME", 335, 265); //adjust values
         //names
         gc.fillText("Joy L\tIsabella W", 310, 400); //adjust values
+        
+        //test;
+        Image image = new Image("file:bigboy-right.png");
+        gc.drawImage(image, 100, 100);
     }
 }
