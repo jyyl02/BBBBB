@@ -25,14 +25,14 @@ public class BigBoy
     gravity;
     Image bB;
     //figure out images
-    //private Image facingLeft = new Image("bigboy-left.png");
-    //private Image facingRight = new Image("bigboy-right.png");
-    //private Image runningLeft = new Image("bigboy-running-left.gif");
-    //private Image runningRight = new Image("bigboy-running-right.gif");
-    //private Image jumpingLeft = new Image("bigboy-jumpingUp-left.gif");
-    //private Image jumpingRight = new Image("bigboy-jumpingUp-right.gif");
-    //private Image fallingLeft = new Image("bigboy-falling-left.png");
-    //private Image fallingRight = new Image("bigboy-falling-right.png");
+    private Image facingLeft;
+    private Image facingRight;
+    private Image runningLeft;
+    private Image runningRight;
+    private Image jumpingLeft;
+    private Image jumpingRight;
+    private Image fallingLeft;
+    private Image fallingRight;
     
     /**
      * Constructor for objects of class BigBoy
@@ -41,11 +41,22 @@ public class BigBoy
     {
         //adjust values
         level = l;
+        lives = 3;
+        cherries = 0;
+        
+        Image facingLeft = new Image("file:bigboy-left.png");
+        Image facingRight = new Image("file:bigboy-right.png");
+        Image runningLeft = new Image("file:bigboy-running-left.gif");
+        Image runningRight = new Image("file:bigboy-running-right.gif");
+        Image jumpingLeft = new Image("file:bigboy-jumpingUp-left.gif");
+        Image jumpingRight = new Image("file:bigboy-jumpingUp-right.gif");
+        Image fallingLeft = new Image("file:bigboy-falling-left.png");
+        Image fallingRight = new Image("file:bigboy-falling-right.png");
         
         width = 40;
         height = 50;
         x = 50;
-        y = 120; //on top of 2 rows of blocks (60 ea) 
+        y = 500 - 120; //on top of 2 rows of blocks (60 ea) 
         runSpeed = 2;
         maxSpeed = 5;
         maxFallingSpeed = 15;
@@ -54,7 +65,7 @@ public class BigBoy
         gravity = .64;
         //bx1 = 0;
         //bx2 = -750;
-        //bB = facingRight;
+        bB = facingRight;
     }
     
     /*
@@ -241,11 +252,12 @@ public class BigBoy
     
     public void run(GraphicsContext gc)
     {
+        
         if(x > 0 && x < 750)
         {
             if(right)
             {
-                //bB = facingRight;
+                bB = runningRight;
                 dx += runSpeed;
                 if(dx > maxSpeed)
                 {
@@ -254,7 +266,7 @@ public class BigBoy
             }
             else if(left)
             {
-                //bB = facingLeft;
+                bB = runningLeft;
                 dx -= runSpeed;
                 if(dx < maxSpeed)
                 {
@@ -269,6 +281,7 @@ public class BigBoy
                     if(dx < 0)
                     {
                         dx = 0;
+                        bB = facingRight;
                     }
                 }
                 else if (dx < 0)
@@ -277,6 +290,7 @@ public class BigBoy
                     if(dx > 0)
                     {
                         dx = 0;
+                        bB = facingLeft;
                     }
                 }
             }
@@ -287,6 +301,14 @@ public class BigBoy
             dy = jumpStart;
             falling = true;
             jumping = false;
+            if(right)
+            {
+                bB = jumpingRight;
+            }
+            else if(left)
+            {
+                bB = jumpingLeft;
+            }            
         }
         
         if(falling)
@@ -296,7 +318,19 @@ public class BigBoy
             {
                 dy = maxFallingSpeed;
             }
+            
+            if(right)
+            {
+                bB = fallingRight;
+            }
+            else if(left)
+            {
+                bB = fallingLeft;
+            } 
         }
+        
+        
+        gc.drawImage(bB, x, y);
     }
     
     private void calculateCorners(double x, double y)
@@ -319,7 +353,6 @@ public class BigBoy
     }
     
     //called when new level is started, or if level is restarted
-    //need or not??
     public void fullLives()
     {
         lives = 3;
