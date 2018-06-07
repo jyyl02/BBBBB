@@ -6,11 +6,13 @@
  * @version (a version number or a date)
  */
 
+import java.util.Scanner;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import java.io.*;
 import javafx.scene.image.Image;
 import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class Level
 {
@@ -22,16 +24,16 @@ public class Level
     private int[][] map;
     private int mapLength, mapHeight;
     
-    private Image bG;
     private Image block;
     private Image cherry;
-    private Image goal;
 
     /**
      * Constructor for objects of class Level1
      */
     public Level(int n)
-    {   
+    {  
+        x = 0;
+        y = 0;
         if(n == 0)
         {
             lvl = "tutorial.txt";
@@ -52,36 +54,59 @@ public class Level
         
         try
         {
-             BufferedReader br = new BufferedReader(new FileReader(lvl));
-             
-             tileSize = 60;
-             mapHeight = 12; //?
-             mapLength = Integer.parseInt(br.readLine());
-             cherryNum = Integer.parseInt(br.readLine());
-             map = new int[mapHeight][mapLength];
-             
-             String delimiters = " ";
-             for(int r = 0; r < mapHeight; r++)
-             {
-                 String line = br.readLine();
-                 String[] tokens = line.split(delimiters);
-                 
-                 for(int c = 0; c < mapLength; c++)
-                 {
-                    map[r][c] = Integer.parseInt(tokens[c]);
-                 }
-             }
+            Scanner inFile = new Scanner(new File("level1.txt")); 
+
+            int count = 0;
+            int row = 0;
+
+            int tileSize = 60;
+            int mapHeight = 12; //?
+            int mapLength = 0;
+            int cherryNum = 0;
+
+            while(inFile.hasNext())
+            {
+                if(count == 0)
+                {
+                    mapLength = inFile.nextInt();
+                    map = new int[mapHeight][mapLength];
+                }
+                else if(count == 1)
+                {
+                    cherryNum = inFile.nextInt();
+                }
+                else
+                {
+                    String line = inFile.nextLine();
+
+                    if(!line.equals(""))
+                    {
+                        String[] tokens = line.split(" ");
+
+                        for(int i = 0; i < tokens.length; i++)
+                        {
+                            map[row][i] = Integer.parseInt(tokens[i]);
+                        }
+
+                        row++;
+                    }
+                }
+
+                count++;
+            }
+            inFile.close();
+
+            
         }
-        catch(Exception e) {}
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void run(GraphicsContext gc)
     {        
-        bG = new Image("gameBg.png");
-        gc.drawImage(bG, 0, 0);
-        block = new Image("block.png");
-        cherry = new Image("block.png");
-        goal = new Image("block.png");
+        block = new Image("file:block.png");
+        cherry = new Image("file:block.png");
         
         for(int r = 0; r < mapHeight; r++)
          {            
@@ -102,12 +127,13 @@ public class Level
                 if(rc == 3)
                 {
                     //do a goal 
-                    gc.drawImage(goal, x + c * 60, y + r * 60);
+                    gc.setFill(Color.WHITE);
+                    gc.fillRect(x + c * 60, y + r * 60, 60, 60);
                 }
              }
          }
     }
-    
+  
     public int getYPos(int y)
     {
         return y / tileSize;
