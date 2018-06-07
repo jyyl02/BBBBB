@@ -8,6 +8,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import java.io.*;
+import javafx.scene.image.Image;
 import java.awt.*;
 
 public class Level
@@ -19,15 +20,16 @@ public class Level
     private int tileSize;
     private int[][] map;
     private int mapLength, mapHeight;
+    
+    private Image block;
+    private Image cherry;
+    private Image goal;
 
     /**
      * Constructor for objects of class Level1
      */
     public Level(int n)
-    {
-        //Canvas canvas = new Canvas(750, 500);
-        //GraphicsContext gc = canvas.getGraphicsContext2D();
-        
+    {   
         if(n == 0)
         {
             lvl = "tutorial.txt";
@@ -73,6 +75,10 @@ public class Level
     
     public void run(GraphicsContext gc)
     {
+        block = new Image("block.png");
+        cherry = new Image("block.png");
+        goal = new Image("block.png");
+        
         for(int r = 0; r < mapHeight; r++)
          {            
              for(int c = 0; c < mapLength; c++)
@@ -81,8 +87,18 @@ public class Level
                 
                 if(rc == 1)
                 {
-                    //do a block 
-                    //(x + c * tileSize, y + r * tileSize, tilesize, tilesize);
+                    //do a block
+                    gc.drawImage(block, x + c * 60, y + r * 60);
+                }
+                if(rc == 2)
+                {
+                    //do a cherry 
+                    gc.drawImage(cherry, x + c * 60, y + r * 60);
+                }
+                if(rc == 3)
+                {
+                    //do a goal 
+                    gc.drawImage(goal, x + c * 60, y + r * 60);
                 }
              }
          }
