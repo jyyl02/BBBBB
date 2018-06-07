@@ -20,18 +20,16 @@ public class Menu
     public void run(GraphicsContext gc)
     {
         //background
-        Image background = new Image("file:menuBg.png");
+        Image background = new Image("file:menu.png");
         gc.drawImage(background, 0, 0);
         //START button
         gc.setFill(Color.BLACK);
-        gc.fillRect(300, 225, 150, 75);
+        gc.fillRect(300, 275, 150, 75);
         gc.setFill(Color.WHITE);
-        gc.fillText("START GAME", 335, 265); //adjust values
+        gc.fillText("START GAME", 335, 320); //adjust values
         //names
         gc.fillText("Joy L\tIsabella W", 310, 400); //adjust values
-        
-        //test;
-        Image image = new Image("file:bigboy-right.png");
-        gc.drawImage(image, 100, 100);
+    
+        //test
     }
 }
