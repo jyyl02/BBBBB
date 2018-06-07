@@ -6,6 +6,7 @@
  * @version (a version number or a date)
  */
 
+import javafx.scene.image.Image;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -18,15 +19,15 @@ public class Menu
 {    
     public void run(GraphicsContext gc)
     {
-        // color for background
-        gc.setFill(Color.RED);
-        gc.fillRect(0, 0, 750, 500);
+        //background
+        Image background = new Image("menuBg.png");
+        gc.drawImage(background, 0, 0);
         //START button
         gc.setFill(Color.BLACK);
         gc.fillRect(300, 225, 150, 75);
         gc.setFill(Color.WHITE);
         gc.fillText("START GAME", 335, 265); //adjust values
-        //credits
+        //names
         gc.fillText("Joy L\tIsabella W", 310, 400); //adjust values
     }
 }
