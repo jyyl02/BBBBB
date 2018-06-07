@@ -1,4 +1,4 @@
-
+/**
  * Write a description of class BasicAnimation here.
  * 
  * Joy Liu P5, Isabella Wu P6
@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.KeyFrame;
@@ -36,7 +35,7 @@ public class GameMain extends Application
     private BigBoy bigBoy;
     
     private int gameState, levelNum;
-    private int MENU, PLAYING, PAUSED, WON;
+    private int MENU, PLAYING, WON;
     
     public GameMain()
     {
@@ -44,19 +43,18 @@ public class GameMain extends Application
         screenHeight = 500;
         
         //** still need to figure out images
-        //ImageIcon i = newImageIcon("file");
-        //menuBg = i.getImage();
         //i = new ImageIcon("file");
         //gameBg = i.getImage();
+        //Image gameFin = new Image("file");
         bigBoy = new BigBoy();
         menu = new Menu();
         
         MENU = 0;
         PLAYING = 1;
-        PAUSED = 2;
-        WON = 3;
+        WON = 2;
         gameState = MENU;
-        levelNum = 0; 
+        levelNum = 0;
+        level = new Level(levelNum);
     }
     
     @Override 
@@ -80,18 +78,20 @@ public class GameMain extends Application
             if(e.getCode() == KeyCode.RIGHT)
             {
                 bigBoy.run(true);
+            }                       
+        });
+        
+        canvas.setOnKeyReleased( e ->
+        {
+            if(e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT)
+            {
+                bigBoy.setDx(0);
             }
             
             if(e.getCode() == KeyCode.UP)
             {
                 bigBoy.jump();
             }
-        });
-        
-        canvas.setOnKeyReleased( e ->
-        {
-            if(e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT)        
-                bigBoy.setDx(0);
         });
         
         canvas.setOnMouseClicked(e ->
@@ -107,20 +107,8 @@ public class GameMain extends Application
                     gameState = PLAYING;
                     tl.play();
                     //test
-                    System.out.print("ooo");
-                }
-                                    
-            }
-            
-            if(gameState == PAUSED)
-            {
-                tl.play();
-                gameState = PLAYING;
-            }
-            else if(gameState == PLAYING)
-            {
-                tl.pause();
-                gameState = PAUSED;
+
+                }                                   
             }
         });
         
@@ -136,23 +124,22 @@ public class GameMain extends Application
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, 750, 500);
         
-        //test- not working
+        //test- not working!!
         //***** figures out images!
         //---File file = new File("file:src/bigboy-right.png");
         //Image image = new Image("c:\\bigboy-right.png");
         //gc.drawImage(image, 100, 100);
         
-        // objects on screen
-        
+        // objects on screen        
          if(gameState == MENU)
         {
-            //gc.drawImage(menuBg, 0, 0);
             menu.run(gc);
         }
         else if(gameState != WON)
         {
             //gc.drawImage(gameBg, 0, 0);
             //gc.drawImage(gameBg, -750, 0); ??????
+            level.run(gc);
             gc.setFill(Color.WHITE);
             //score
             gc.fillText("" + bigBoy.getCherries() * 5, 200, 25);
@@ -162,18 +149,12 @@ public class GameMain extends Application
             //lives
             gc.fillText("" + bigBoy.getLives(), 25, 25);
         }
-        
-       
-        /*test
-        gc.setFill(Color.WHITE);
-        gc.fillText("Score: 15", 200, 25); //score
-        gc.fillText("0 / 3", 125, //cherry count
-            25);
-        gc.fillText("3 / 3 lives", 25, 25); //lives
-        */
+        else
+        {
+            //gc.drawImage(gameFin, 0, 0);
+        }
     }
     
-
     // run program
     public static void main(String[] args)
     {
