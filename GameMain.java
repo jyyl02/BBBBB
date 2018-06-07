@@ -1,5 +1,5 @@
 /**
- * Write a description of class BasicAnimation here.
+ * Write a description of class GameMain here.
  * 
  * Joy Liu P5, Isabella Wu P6
  * @version (a version number or a date)
@@ -43,10 +43,9 @@ public class GameMain extends Application
         screenHeight = 500;
         
         //** still need to figure out images
-        //i = new ImageIcon("file");
-        //gameBg = i.getImage();
-        //Image gameFin = new Image("file");
-        bigBoy = new BigBoy();
+        //gameBg = new Image("gameBg.png");
+        //Image gameFin = new Image("gameFin.png");
+        bigBoy = new BigBoy(level);
         menu = new Menu();
         
         MENU = 0;
@@ -72,26 +71,31 @@ public class GameMain extends Application
         {
             if(e.getCode() == KeyCode.LEFT)
             {
-                bigBoy.run(false);
+                bigBoy.setLeft(true);
             }
             
             if(e.getCode() == KeyCode.RIGHT)
             {
-                bigBoy.run(true);
-            }                       
-        });
-        
-        canvas.setOnKeyReleased( e ->
-        {
-            if(e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT)
-            {
-                bigBoy.setDx(0);
+                bigBoy.setRight(true);
             }
             
             if(e.getCode() == KeyCode.UP)
             {
-                bigBoy.jump();
+                bigBoy.setJumping(true);
             }
+        });
+        
+        canvas.setOnKeyReleased( e ->
+        {
+            if(e.getCode() == KeyCode.LEFT)
+            {
+                bigBoy.setLeft(false);
+            }
+            
+            if(e.getCode() == KeyCode.RIGHT)
+            {
+                bigBoy.setRight(false);
+            } 
         });
         
         canvas.setOnMouseClicked(e ->
@@ -107,7 +111,6 @@ public class GameMain extends Application
                     gameState = PLAYING;
                     tl.play();
                     //test
-
                 }                                   
             }
         });
@@ -120,14 +123,10 @@ public class GameMain extends Application
 
     private void run(GraphicsContext gc)
     {
-        // color for background
-        gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, 750, 500);
-        
         //test- not working!!
         //***** figures out images!
         //---File file = new File("file:src/bigboy-right.png");
-        //Image image = new Image("c:\\bigboy-right.png");
+        //Image image = new Image("file:bigboy-right.png");
         //gc.drawImage(image, 100, 100);
         
         // objects on screen        
