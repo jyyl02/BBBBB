@@ -30,9 +30,9 @@ public class GameMain extends Application
     // private instance variables
     private int screenWidth, screenHeight;
     private Menu menu;
-    private Frame frame;
     private Level level;
     private BigBoy bigBoy;
+    private Image gameBg, gameFin;
     
     private int gameState, levelNum;
     private int MENU, PLAYING, WON;
@@ -43,8 +43,8 @@ public class GameMain extends Application
         screenHeight = 500;
         
         //** still need to figure out images
-        //gameBg = new Image("gameBg.png");
-        //Image gameFin = new Image("gameFin.png");
+        gameBg = new Image("file:gameBg.png");
+        gameFin = new Image("file:gameFin.png");
         bigBoy = new BigBoy(level);
         menu = new Menu();
         
@@ -105,13 +105,16 @@ public class GameMain extends Application
             if(gameState == MENU)
             {
                 //if mouse is clicked within the "START" button
-                if(mouseX >= 450 && mouseX <= 300 
-                && mouseY >= 300 && mouseY <= 225)
-                {
-                    gameState = PLAYING;
-                    tl.play();
+                //if(mouseX >= 450 && mouseX <= 300 
+                //&& mouseY >= 300 && mouseY <= 225)
+                //{
+                    //gameState = PLAYING;
+                    //tl.play();
                     //test
-                }                                   
+                //}  
+                
+                gameState = PLAYING;
+                tl.play();
             }
         });
         
@@ -136,21 +139,20 @@ public class GameMain extends Application
         }
         else if(gameState != WON)
         {
-            //gc.drawImage(gameBg, 0, 0);
+            gc.drawImage(gameBg, 0, 0);
             //gc.drawImage(gameBg, -750, 0); ??????
-            level.run(gc);
             gc.setFill(Color.WHITE);
-            //score
-            gc.fillText("" + bigBoy.getCherries() * 5, 200, 25);
-            //cherry count (collected/total)
-            gc.fillText(bigBoy.getCherries() + "/" + level.getCherries(), 125,
-            25);
-            //lives
-            gc.fillText("" + bigBoy.getLives(), 25, 25);
+            //score, cherries, lives
+            gc.fillText("score:" + bigBoy.getCherries() * 5 + "\t" 
+            + bigBoy.getCherries() + "/" + level.getCherries() + " cherries"
+            + "\tlives: " + bigBoy.getLives(), 25, 25);
+            
+            level.run(gc);
+            bigBoy.run(gc);
         }
         else
         {
-            //gc.drawImage(gameFin, 0, 0);
+            gc.drawImage(gameFin, 0, 0);
         }
     }
     
