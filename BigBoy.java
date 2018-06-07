@@ -1,204 +1,162 @@
 /**
- * Write a description of class BigBoy here.
- *
- * @author (your name)
+ * Write a description of class BasicAnimation here.
+ * 
+ * Joy Liu P5, Isabella Wu P6
  * @version (a version number or a date)
  */
-import javax.swing.ImageIcon;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
 
-public class BigBoy
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import javafx.scene.input.KeyCode;
+import javafx.animation.Animation;
+
+public class GameMain extends Application
 {
-    //instance variables
-    private int lives, cherries; 
-    private int dx; // x displacement
-    private int bx1, bx2; //background image one + two *****
-    private int x, y; //x and y location
-    Image bB;
-    //figure out images
-        ImageIcon facingLeft = new ImageIcon("bigboy-right.png");
-        //ImageIcon facingRight = new ImageIcon("");
-        //ImageIcon jumping = new ImageIcon("");
+    // private instance variables
+    private int screenWidth, screenHeight;
+    private Menu menu;
+    private Frame frame;
+    private Level level;
+    private BigBoy bigBoy;
     
-    /**
-     * Constructor for objects of class BigBoy
-     */
-    public BigBoy()
+    private int gameState, levelNum;
+    private int MENU, PLAYING, WON;
+    
+    public GameMain()
     {
-        //adjust values
-        x = 50;
-        y = 120; //on top of 2 rows of blocks (60 ea) 
-        bx1 = 0;
-        bx2 = -750;
+        screenWidth = 750;
+        screenHeight = 500;
         
+        //** still need to figure out images
+        //gameBg = new Image("gameBg.png");
+        //Image gameFin = new Image("gameFin.png");
+        bigBoy = new BigBoy(level);
+        menu = new Menu();
         
-        //bB = facingRight.getImage();
+        MENU = 0;
+        PLAYING = 1;
+        WON = 2;
+        gameState = MENU;
+        levelNum = 0;
+        level = new Level(levelNum);
     }
     
-    //changes position left/right
-    public void run(boolean right)
+    @Override 
+    public void start(Stage stage) 
     {
-        if(x > 0 && x < 750)
-        {
-            if(right)
-            {
-                //bB = facingRight.getImage();
-                x += dx;
-            }
-            else
-            {
-                //bB = facingLeft.getImage();
-                x -= dx;
-            }
-        }
+        Canvas canvas = new Canvas(screenWidth, screenHeight);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis(10), e -> run(gc)));
+        tl.setCycleCount(Timeline.INDEFINITE);
+        canvas.setFocusTraversable(true);
         
-        /*
-        if(x <= 0)
-        {
-            x = 1;
-            bx1 += dx / 2; //slows down bg speed
-            bx2 += dx / 2;
-        }
         
-        if(x >= 750)
+        //handle mouse and key events
+        canvas.setOnKeyPressed( e ->
         {
-            x = 749;
-            bx1 += dx / 2; //slows down bg speed
-            bx2 += dx / 2;
-        }
-        */
-       
-        //need??
-    }
-    
-    //changes position based on up, right/left arrow keys
-    public  void jump()
-    {
-        if(checkCollisions() == 1) //if x/y value is on a block
-        {
+            if(e.getCode() == KeyCode.LEFT)
+            {
+                bigBoy.setLeft(true);
+            }
             
-        }
+            if(e.getCode() == KeyCode.RIGHT)
+            {
+                bigBoy.setRight(true);
+            }
+            
+            if(e.getCode() == KeyCode.UP)
+            {
+                bigBoy.setJumping(true);
+            }
+        });
         
-        while(checkCollisions() != 1) //while x/y value is in the air
+        canvas.setOnKeyReleased( e ->
         {
-            y -= 2; //adjust value
-        }
-    }
-    
-    public int checkCollisions()
-    {
-        //if bigboy x position is hitting a block
-        //return 0
-        // if y pos hitting block 
-        //return 1
-        //if cherry hit
-        //return 2
+            if(e.getCode() == KeyCode.LEFT)
+            {
+                bigBoy.setLeft(false);
+            }
+            
+            if(e.getCode() == KeyCode.RIGHT)
+            {
+                bigBoy.setRight(false);
+            } 
+        });
         
-        return -1;
-    }
-    
-    //collects cherry
-    public void collectCherry()
-    {
-        cherries++;
-    }
-    
-    //reduces health by one (bitten by snake)
-    public void takeHit()
-    {
-        lives--;
-    }
-    
-    //jumps in the same direction as the snake attack
-    public void jumpBack()
-    {
+        canvas.setOnMouseClicked(e ->
+        {
+            int mouseX = (int) e.getX();
+            int mouseY = (int) e.getY();
+            if(gameState == MENU)
+            {
+                //if mouse is clicked within the "START" button
+                if(mouseX >= 450 && mouseX <= 300 
+                && mouseY >= 300 && mouseY <= 225)
+                {
+                    gameState = PLAYING;
+                    tl.play();
+                    //test
+                }                                   
+            }
+        });
         
-    }
-    
-    //called when new level is started, or if level is restarted
-    public void fullLives()
-    {
-        lives = 3;
-    }
-    
-    public void setDx(int x)
-    {
-        dx = x;
-    }
-    
-    public int getX()
-    {
-        return x;
-    }
-    
-    public int getY()
-    {
-        return y;
-    } 
-    
-        public int getCherries()
-    {
-        return cherries;
-    }
-    
-    public int getLives()
-    {
-        return lives;
-    }
-    
-    public Image getImage()
-    {
-        return bB;
+        stage.setTitle("BBBBB");
+        stage.setScene(new Scene(new StackPane(canvas)));
+        stage.show();
+        tl.play(); 
     }
 
-    
-    
-    
-    /*
-    public void keyPressed(KeyEvent e)
+    private void run(GraphicsContext gc)
     {
-        int key = e.getKeyCode();
+        //test- not working!!
+        //***** figures out images!
+        //---File file = new File("file:src/bigboy-right.png");
+        //Image image = new Image("file:bigboy-right.png");
+        //gc.drawImage(image, 100, 100);
         
-        if(key == KeyEvent.VK_LEFT)
+        // objects on screen        
+         if(gameState == MENU)
         {
-            dx = -2; //adjust values
+            menu.run(gc);
         }
-        
-        if(key == KeyEvent.VK_RIGHT)
+        else if(gameState != WON)
         {
-            dx = 2; //adjust values
+            //gc.drawImage(gameBg, 0, 0);
+            //gc.drawImage(gameBg, -750, 0); ??????
+            level.run(gc);
+            gc.setFill(Color.WHITE);
+            //score
+            gc.fillText("" + bigBoy.getCherries() * 5, 200, 25);
+            //cherry count (collected/total)
+            gc.fillText(bigBoy.getCherries() + "/" + level.getCherries(), 125,
+            25);
+            //lives
+            gc.fillText("" + bigBoy.getLives(), 25, 25);
         }
-        
-        if(key == KeyEvent.VK_UP)
+        else
         {
-            dy = 2; //>???? adjust values
+            //gc.drawImage(gameFin, 0, 0);
         }
     }
     
-   
-   
-    public void keyReleasesd (KeyEvent e)
+    // run program
+    public static void main(String[] args)
     {
-        int key = e.getKeyCode();
-        
-        if(key == KeyEvent.VK_LEFT)
-        {
-            dx = 0; 
-        }
-        
-        if(key == KeyEvent.VK_RIGHT)
-        {
-            dx = 0; 
-        }
-        
-        /*
-        if(key == KeyEvent.VK_UP)
-        {
-            dy = 0; //idk
-        }
-        
+        Application.launch(args);
     }
-    
-    */
 }
