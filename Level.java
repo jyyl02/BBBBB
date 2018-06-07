@@ -1,3 +1,4 @@
+
 /**
  * Write a description of class Level1 here.
  *
@@ -21,6 +22,7 @@ public class Level
     private int[][] map;
     private int mapLength, mapHeight;
     
+    private Image bG;
     private Image block;
     private Image cherry;
     private Image goal;
@@ -74,7 +76,9 @@ public class Level
     }
     
     public void run(GraphicsContext gc)
-    {
+    {        
+        bG = new Image("gameBg.png");
+        gc.drawImage(bG, 0, 0);
         block = new Image("block.png");
         cherry = new Image("block.png");
         goal = new Image("block.png");
@@ -102,6 +106,46 @@ public class Level
                 }
              }
          }
+    }
+    
+    public int getYPos(int y)
+    {
+        return y / tileSize;
+    }
+    
+    public int getXPos(int x)
+    {
+        return x / tileSize;
+    }
+    
+    public int getTile(int r, int c)
+    {
+        return map[r][c];
+    }
+    
+    public int getTileSize()
+    {
+        return tileSize;
+    }
+    
+    public int getX()
+    {
+        return x;
+    }
+    
+    public int getY()
+    {
+        return y;
+    }
+    
+    public void setX(int n)
+    {
+        x = n;
+    }
+    
+    public void setY(int n)
+    {
+        x = n;
     }
     
     public int getCherries()
