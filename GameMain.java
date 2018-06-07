@@ -1,4 +1,4 @@
-/**
+
  * Write a description of class BasicAnimation here.
  * 
  * Joy Liu P5, Isabella Wu P6
@@ -32,7 +32,7 @@ public class GameMain extends Application
     private int screenWidth, screenHeight;
     private Menu menu;
     private Frame frame;
-    private Level level; //not needed????**
+    private Level level;
     private BigBoy bigBoy;
     
     private int gameState, levelNum;
@@ -139,7 +139,7 @@ public class GameMain extends Application
         //test- not working
         //***** figures out images!
         //---File file = new File("file:src/bigboy-right.png");
-        //Image image = new Image("/bigboy-right.png");
+        //Image image = new Image("c:\\bigboy-right.png");
         //gc.drawImage(image, 100, 100);
         
         // objects on screen
